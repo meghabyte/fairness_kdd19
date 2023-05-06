@@ -1,4 +1,20 @@
-# Fairness Perceptions
+# Mathematical notions vs. human perception of fairness
+
+This repository contains the code for the KDD 2019 paper "Mathematical notions vs. human perception of fairness: A descriptive approach to fairness for machine learning". 
+
+Code for running the server locally and the full adaptive test selection procedure is in the `Server` subdirectory. 
+Analysis of our data for all reported results is in the `Analysis` subdirectory. 
+
+If you find this respository useful, please cite:
+
+```
+@InProceedings{srivastava2019fairness,
+  title = 	 {Mathematical notions vs. human perception of fairness: A descriptive approach to fairness for machine learning},
+  author = 	 {Srivastava, Megha and Heidari, Hoda and Krause, Andreas},
+  booktitle	=   {Knowledge Discovery and Data Mining (KDD)},
+  year = 	 {2019},
+}
+```
 
 
 ***Installation Requirements***
