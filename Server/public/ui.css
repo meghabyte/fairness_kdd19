@@ -1,0 +1,45 @@
+.firstcol {width: 10%;}
+.lastcol {width: 10%;}
+.headrow {text-align: center; height: 65px;}
+.headcell {width: 8%;}
+.featurerow {text-align: center; height: 54px; font-family: 'Open Sans', sans-serif;}
+.featurecell {background: #194372; color: white; font-family: 'Open Sans', sans-serif; font-size: 13px;} 
+.labelrow {text-align: center; height: 54px; color: white; font-family: 'Open Sans', sans-serif; font-size: 12px;}
+#label_t_1 {background: white; border: 4px solid white;}
+#label_t_2 {background: white; border: 4px solid white;}
+#label_t_3 {background: white; border: 4px solid white;}
+#label_t_4 {background: white; border: 4px solid white;}
+#label_t_5 {background: white; border: 4px solid white;}
+#label_t_6 {background: white; border: 4px solid white;}
+#label_t_7 {background: white; border: 4px solid white;}
+#label_t_8 {background: white; border: 4px solid white;}
+#label_t_9 {background: white; border: 4px solid white;}
+#label_t_10 {background: white; border: 4px solid white;}
+#label_1_1 {background: white; border: 4px solid white;}
+#label_1_2 {background: white; border: 4px solid white;}
+#label_1_3 {background: white; border: 4px solid white;}
+#label_1_4 {background: white; border: 4px solid white;}
+#label_1_5 {background: white; border: 4px solid white;}
+#label_1_6 {background: white; border: 4px solid white;}
+#label_1_7 {background: white; border: 4px solid white;}
+#label_1_8 {background: white; border: 4px solid white;}
+#label_1_9 {background: white; border: 4px solid white;}
+#label_1_10 {background: white; border: 4px solid white;}
+#label_2_1 {background: white; border: 4px solid white;}
+#label_2_2 {background: white; border: 4px solid white;}
+#label_2_3 {background: white; border: 4px solid white;}
+#label_2_4 {background: white; border: 4px solid white;}
+#label_2_5 {background: white; border: 4px solid white;}
+#label_2_6 {background: white; border: 4px solid white;}
+#label_2_7 {background: white; border: 4px solid white;}
+#label_2_8 {background: white; border: 4px solid white;}
+#label_2_9 {background: white; border: 4px solid white;}
+#label_2_10 {background: white; border: 4px solid white;}
+#label_t {background: white; color: black;}
+#label_1 {background: white; color: black;}
+#label_2 {background: white; color: black;}
+.uibutton {background: black; color: white; font-family: 'Open Sans', sans-serif;}
+.legend {background: white; color: black; font-family: 'Open Sans', sans-serif;}
+#verification {font-family: 'Open Sans', sans-serif; font-size: 18px;}
+#button_nextquestion {font-family: 'Open Sans', sans-serif; font-size: 16px;}
+.datainfo {margin-left: auto; margin-right: auto; width: 40em; text-align: justify; font-size: 14px; font-family: 'Open Sans', sans-serif;}

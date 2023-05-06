@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Fairness Experiment</title>
+</head>
+  <link rel="stylesheet" href="/static/jquery-ui.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300">
+  <link rel="stylesheet" href="/static/ui.css">
+  <script src="/static/external/jquery/jquery.js"></script>
+  <script src="/static/jquery-ui.min.js"></script>
+  <script>
+    $(function() {
+      $( ".widget button" ).button();
+      $( "#debug" ).hide();
+      var default_uiversion = "v1";
+      var valid_uiversions = ["v1", "v2"];
+      var uiversion = "{{uiversion}}";
+      var explanations;
+      var expval;
+      var max_features = 5; // this is the maximum # of features we can support
+      // from https://stackoverflow.com/questions/1801499/how-to-change-options-of-select-with-jquery
+      // "How to change options of <select> with jQuery?"
+      (function($, window) {
+        $.fn.replaceOptions = function(options) {
+          var self, $option;
+
+          this.empty();
+          self = this;
+
+          $.each(options, function(index, option) {
+            $option = $("<option></option>")
+              .attr("value", option.value)
+              .text(option.text);
+            self.append($option);
+          });
+        };
+      })(jQuery, window);
+      if (valid_uiversions.includes(uiversion)==true) {
+        var fmap = [
+          ["Female", "Male"],
+          ["Black", "White"],
+          ["Felony", "Misdemeanor"],
+          [" # Priors: < 3", "# Priors: > 3"],
+          ["Age: < 25", "Age: > 25"]
+        ]
+        var imgmap = [
+          ["/static/figures/blackwoman.png", "/static/figures/whitewoman.png"],
+          ["/static/figures/blackman.png","/static/figures/whiteman.png"]
+        ]
+        var tmap = ["Does not have Skin Cancer", "Has Skin Cancer"]
+        var pmap = ["Low Risk for Skin Cancer", "High Risk for Skin Cancer"]
+        var welcome_text = "Data-driven algorithms are increasingly employed to diagnose various medical conditions, such as risk for heart disease or various forms of cancer. They can find patterns and links in medical records that previously required great levels of expertise and time from human doctors. Algorithmic diagnoses are then used by health-care professionals to create personalized treatment plans for patients (e.g. whether the patient should undergo surgery, chemotherapy, etc.). <br> <br> Data-driven decision making algorithms use historical data about past patients to learn about factors that highly correlate with risk for cancer. These algorithms use historical medical data of past patients to learn about factors that highly correlate with the medical condition in question (e.g. skin cancer). For instance, the algorithm may learn from past data that: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.  A patient with a family history of skin cancer has a higher risk of developing skin cancer; or <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Patients belonging to certain groups (e.g. people with a certain skin tone, or people of a certain gender) are more likely to develop skin cancer. <br><br> However, algorithms are not perfect and they inevitably make errors—although the error rate is usually very low, <strong><i>the algorithm’s decision can have a significant impact on patients' lives.</i></strong> <br>A patient falsely diagnosed with cancer may <b>unnecessarily go through high-risk and costly medical treatments</b>, while a patient falsely labeled as cancer-free may face <b>a lower chance of survival</b>.<br> <br> Algorithms may be viewed as <b>discriminatory</b> by variations in their errors and predictions for skin cancer risk across <b>different demographic groups</b> - our goal is to assess how discriminatory these algorithms are. You will be offered a series of <b>20 questions</b> and you will be asked to <i><strong>choose which algorithm makes predictions that you find to be more discriminatory</strong></i>.  Each question shows 10 (hypothetical) patients and their demographic information. Here is an example. <br><br><img src='/static/figures/interface_med_new.png' alt='Explanation Field' width='50%'> <br><br>Demographic information is represented by colors: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. White profile = Caucasian race (acronym W) <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Black profile = African American race (acronym B) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Blue Background = Male Gender (acronym M) <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. Pink Background = Female Gender (acronym F) <br> You will see the predictions made for these 10 patients by Algorithm 1 and 2. Both algorithms either predict the patient has high-risk for cancer <b>(red)</b>, or label him/her with low risk for cancer <b>(green)</b>. You will also be shown the <b>true outcome</b> -  whether each patient actually suffers from skin cancer. <i>Based on this information, you will be asked to select that algorithm that you believe is the most discriminatory, and fill out the explanation field specifying the reasoning behind your choice. </i><br><br>"
+        var welcome_append = ["<img src='/static/figures/select1.png' alt='Explanation Field' width='40%'>  <br><br> In the first dropdown, choose the demographic information that you think the algorithm is most discriminatory with respect to.  For instance, you might consider Algorithm 1 more discriminatory across racial groups. <br><br> <img src='/static/figures/select2.png' alt='Explanation Field' width='40%'> <br><br>  In the second dropdown, choose the metric along which you think the algorithm is most discriminatory. For instance, you may think Algorithm 1 is more discriminatory because it makes 4 correct prediction for African-American but only 2 correct predictions for Caucasians.  <br><br> <img src='/static/figures/select3_med.png' alt='Explanation Field' width='40%'> <br><br> <ul style='list-style-type:disc'><li>If you think there are multiple reasons, pick the one you find most significant.</li><li>The 10 patients are chosen such that the predictions the algorithm makes for them is representative of how the it performs overall and on the entire population of medical patients.</li><li>Every question corresponds to a different set of individuals and algorithms. <i>Information provided in previous questions should not affect your choice for the current question.</i></li></ul><br>The average response time for a single question is around 1 minute. If you do not complete a single question within 30 minutes, the task will time out and will be marked as incomplete. <b>You will be compensated for your time only if you complete the task. </b> The complete information sheet for this study (goals, procedures, risks, etc.) can be found <a href='/static/information/infosheet.pdf' target='_blank'>here</a>. By pressing the proceed button below, you agree that you have read and understood <a href='/static/information/consentform.pdf' target='_blank'>this consent form</a>.","<img src='/static/figures/otherselect.png' alt='Explanation Field' width='80%'> <br> <ul style='list-style-type:disc'><li>Fill out the explanation field in English with the reason for your choice.</li><li>The 10 patients are chosen such that the predictions the algorithm makes for them is representative of how the it performs overall and on the entire population of patients. </li><li>Every question corresponds to a different set of individuals and algorithms. <i>Information provided in previous questions should not affect your choice for the current question.</i></li></ul>The average response time for a single question is around 1 minute. If you do not complete a single question within 30 minutes, the task will time out and will be marked as incomplete. <b>You will be compensated for your time only if you complete the task. </b> The complete information sheet for this study (goals, procedures, risks, etc.) can be found <a href='/static/information/infosheet.pdf' target='_blank'>here</a>. By pressing the proceed button below, you agree that you have read and understood <a href='/static/information/consentform.pdf' target='_blank'>this consent form</a>."]
+      } else {
+        var fmap = [
+          ["f1_0", "f1_1"],
+          ["f2_0", "f2_1"],
+          ["f3_0", "f3_1"],
+          ["f4_0", "f4_1"],
+          ["f5_0", "f5_1"],
+        ]
+        var imgmap = "/static/figures/person.png"
+        var tmap = ["0", "1"]
+        var pmap = ["0", "1"]
+        var welcome_text = "Welcome!!!"
+        var welcome_append = "Welcome Append!!!"
+      }
+      // imgmap_length tells us how many features get captured by the image
+      if (typeof(imgmap)=="string") {
+        var imgmap_length = 0
+      } else {
+        var imgmap_length = imgmap.length
+      }
+      $("#page_welcome_text").html(welcome_text)
+      $("#page_welcome_append_v1").html(welcome_append[0])
+      $("#page_welcome_append_v2").html(welcome_append[1])
+      
+      // helper function for buttons
+      var button_handler = function(choice,reason1,reason2,reasonff) {
+        if (choice!=undefined) {
+          //console.log("button_handler: "+choice)
+          if ({{swapchoice}}==true) {
+            if (choice==1) {
+              choice=0
+            } else {
+              choice=1
+            }
+          }
+          //console.log("button_handler: "+choice+" "+reason1+" "+reason2+" "+reasonff)
+        }
+        
+        var sampleurl = "/sample"
+        var select_algorithm_options = [
+          {text: "[choose one]", value: 0},
+          {text: "1", value: 1},
+          {text: "2", value: 2},
+        ];
+        var select_1_options = [
+          {text: "[choose one]", value: 0},
+          {text: "Racial (B/W)", value: 1},
+          {text: "Gender (F/M)", value: 2},
+          {text: "Both Gender & Racial (BF/WF/BM/WM)", value: 3}
+        ];
+        var select_2_options = [
+          {text: "[choose one]", value: 0},
+        ];
+        $("#select_algorithm").replaceOptions(select_algorithm_options);
+        $("#select_1").replaceOptions(select_1_options);
+        $("#select_1").prop('disabled', true);
+        $("#select_2").replaceOptions(select_2_options);
+        $("#select_2").prop('disabled', true);
+        $("#reason_freeform").prop('disabled', true);
+        if (choice==undefined) {
+          $(".page_welcome").hide()
+          $(".page_question").show()
+          $("#verification_"+uiversion).show()
+          $("#intro_"+uiversion).show()
+        } else {
+          if (choice==0) {
+            sampleurl = sampleurl + "?choice=0"
+          } else if (choice==1) {
+            sampleurl = sampleurl + "?choice=1"
+          }
+          if (reason1!=undefined) {
+            sampleurl = sampleurl + "&reason1="+reason1
+          }
+          if (reason2!=undefined) {
+            sampleurl = sampleurl + "&reason2="+reason2
+          }
+          if (reasonff!=undefined) {
+            sampleurl = sampleurl + "&reasonff="+reasonff
+          }
+        }
+        sampleurl = encodeURI(sampleurl);
+        //$( "#button_option_1" ).button( "disable" );
+        //$( "#button_option_2" ).button( "disable" );
+        $(".sample").html("waiting... may take up to 30s.")
+        $("#status").html("Please wait for the next task... may take a bit of time!")
+        $.get(sampleurl, function(data) {
+          if (data=="Done") {
+            $(".page_question").hide()
+            $(".page_thanks").show()
+          } else {
+            var obj = JSON.parse(data)
+            $("#true_labels").html(obj.t)
+            $("#predicted_labels_1").html(obj.p1)
+            $("#predicted_labels_2").html(obj.p2)
+            $("#item_features").html(obj.itemfeatures)
+            explanations = obj.explanations
+            expval = obj.expval
+            var p, f;
+            for (p=0; p<10; p++) {
+              for (f=imgmap_length; f<Math.min(max_features,obj.itemfeatures_n[0].length); f++) {
+                // console.log("#f_"+(p+1)+"_"+(f+1))
+                // console.log(obj.itemfeatures_n[p][f])
+                $("#f_"+(p+1)+"_"+(f-imgmap_length+1)).html(fmap[f][obj.itemfeatures_n[p][f]])
+              }
+              if (imgmap_length==0) {
+                $("#profile_"+(p+1)).attr("src",imgmap)
+              } else {
+                $("#profile_"+(p+1)).attr("src",imgmap[obj.itemfeatures_n[p][0]][obj.itemfeatures_n[p][1]])
+              }            
+              if (obj.t_n[p]==1) {
+                $("#label_t_"+(p+1)).css("background-color","#D03310")
+              } else {
+                $("#label_t_"+(p+1)).css("background-color","#137F26")
+              }
+              if (obj.p1_n[p]==1) {
+                $("#label_1_"+(p+1)).css("background","#F04110")
+              } else {
+                $("#label_1_"+(p+1)).css("background","#53B226")
+              }
+              if (obj.p2_n[p]==1) {
+                $("#label_2_"+(p+1)).css("background","#F04110")
+              } else {
+                $("#label_2_"+(p+1)).css("background","#53B226")
+              }
+              $("#label_t_"+(p+1)).html(tmap[obj.t_n[p]])
+              $("#label_1_"+(p+1)).html(pmap[obj.p1_n[p]])
+              $("#label_2_"+(p+1)).html(pmap[obj.p2_n[p]])
+            }
+            $("#status").html("Please make your selection by completing the explanation below.");
+            //$("#button_option_1").button("enable");
+            //$("#button_option_2").button("enable");
+            var question_number = parseInt($("#question_number").html())+1;
+            $("#question_number").html(String(question_number));
+            if (question_number>1) {
+              //$("input:radio[name='algorithm_selector']:checked").prop('checked', false);
+              //$("#selected_algorithm_name").html("[please select one]")
+              //$("#selected_algorithm_name").css("color","gray")
+              $("#select_algorithm_name").val("0")
+              $("#select_1").val("0")
+              $("#select_2").val("0")
+              $("#reason_freeform").val("")
+            }
+          }
+        })
+      }
+
+      // Handler for Proceed button
+      $("#button_proceed").click(function(event) { 
+        event.preventDefault();
+        button_handler();
+      });
+      //$("#button_option_1").click(function(event) {
+      //  event.preventDefault();
+      //  button_handler(0);
+      //});
+      //$("#button_option_2").click(function(event) {
+      //  event.preventDefault();
+      //  button_handler(1);
+      //});
+      //$("input[name='algorithm_selector']").click(function() {
+        //$("#selected_algorithm_name").html($("input:radio[name='algorithm_selector']:checked").val())
+        //$("#selected_algorithm_name").css("color","black")
+        // alert('You clicked radio!'+$("input:radio[name='algorithm_selector']:checked").val());
+      //});
+
+      // Handler for Next Question button
+      $("#button_nextquestion").click(function(event) {
+        function isReasonInvalid(r) {
+          return (r.val()==undefined || r.val().length<10 || r.val().replace(/\s/g, '').length==0)
+        }
+        event.preventDefault();
+        //if ($("input:radio[name='algorithm_selector']:checked").val()==undefined) {
+        if ($("#select_algorithm").val()=="0") {
+          alert("Error: Please select an algorithm which you think is more discriminatory.")
+        } else if (uiversion=="v1" && ($("#select_1").val()=="0" || $("#select_2").val()=="0")) {
+          //alert("Error: Please complete explanation for selecting algorithm # "+$("input:radio[name='algorithm_selector']:checked").val()+" as fairer.")
+          alert("Error: Please complete explanation for selecting algorithm # "+$("#select_algorithm").val()+" as more discriminatory.")
+        } else if (uiversion=="v2" && isReasonInvalid($("#reason_freeform"))) {
+          //alert("Error: Please complete explanation for selecting algorithm # "+$("input:radio[name='algorithm_selector']:checked").val()+" as fairer.")
+          alert("Error: Please provide a full sentence explanation for selecting algorithm # "+$("#select_algorithm").val()+" as more discriminatory."+" Current explanation: "+$("#reason_freeform").val())
+        } else {
+          //button_handler(parseInt($("input:radio[name='algorithm_selector']:checked").val())-1,$("#select_1").val(),$("#select_2").val());
+          button_handler(parseInt($("#select_algorithm").val())-1,$("#select_1").val(),$("#select_2").val(),$("#reason_freeform").val());
+        }
+      });
+
+      // Handler for algorithm selector
+      $("#select_algorithm").change(function(event) {
+        alg = $("#select_algorithm").val()
+        var select_1_options = [
+          {text: "[choose one]", value: 0},
+          {text: "Racial (B/W)", value: 1},
+          {text: "Gender (F/M)", value: 2},
+          {text: "Both Gender & Racial (BF/WF/BM/WM)", value: 3}
+        ];
+        var select_2_options = [
+          {text: "[choose one]", value: 0},
+        ];
+        $("#select_1").replaceOptions(select_1_options);
+        $("#select_2").replaceOptions(select_2_options);
+        if (alg==0) {
+          $("#select_1").prop('disabled', true);
+          $("#reason_freeform").prop('disabled', true);
+        } else {
+          $("#select_1").prop('disabled', false);
+          $("#reason_freeform").prop('disabled', false);
+        }
+        $("#select_2").prop('disabled', true);      
+      });
+
+      // handler for demongraphic attribute selector
+      $("#select_1").change(function(event) {
+        s1 = $("#select_1").val()
+        if (s1==0) {
+          var select_2_options = [
+            {text: "[choose one]", value: 0},
+          ];
+          $("#select_2").replaceOptions(select_2_options);
+          $("#select_2").prop('disabled', true);
+        } else {
+          alg = $("#select_algorithm").val()
+          var select_2_options = []
+          if ($("#select_1").val()==3) {
+            select_2_options = [
+              {text: "[choose one]", value: 0},
+              {text: `Correct Predictions: ${explanations[alg-1][s1-1][0][0]} ${expval[s1-1][0]} vs. ${explanations[alg-1][s1-1][0][1]} ${expval[s1-1][1]} vs. ${explanations[alg-1][s1-1][0][2]} ${expval[s1-1][2]} vs. ${explanations[alg-1][s1-1][0][3]} ${expval[s1-1][3]}`, value: 1},
+              {text: `Individuals Predicted to Have Cancer: ${explanations[alg-1][s1-1][1][0]} ${expval[s1-1][0]} vs. ${explanations[alg-1][s1-1][1][1]} ${expval[s1-1][1]} vs. ${explanations[alg-1][s1-1][1][2]} ${expval[s1-1][2]} vs. ${explanations[alg-1][s1-1][1][3]} ${expval[s1-1][3]}`, value: 2},
+              {text: `Correct Predictions Among Those Who Have Cancer: ${explanations[alg-1][s1-1][2][0]} ${expval[s1-1][0]} vs. ${explanations[alg-1][s1-1][2][1]} ${expval[s1-1][1]} vs. ${explanations[alg-1][s1-1][2][2]} ${expval[s1-1][2]} vs. ${explanations[alg-1][s1-1][2][3]} ${expval[s1-1][3]}`, value: 3},
+              {text: `Correct Predictions Among Those Predicted To Have Cancer: ${explanations[alg-1][s1-1][3][0]} ${expval[s1-1][0]} vs. ${explanations[alg-1][s1-1][3][1]} ${expval[s1-1][1]} vs. ${explanations[alg-1][s1-1][3][2]} ${expval[s1-1][2]} vs. ${explanations[alg-1][s1-1][3][3]} ${expval[s1-1][3]}`, value: 4}
+            ];
+          } else {
+            select_2_options = [
+              {text: "[choose one]", value: 0},
+              {text: `Correct Predictions: ${explanations[alg-1][s1-1][0][0]} ${expval[s1-1][0]} vs. ${explanations[alg-1][s1-1][0][1]} ${expval[s1-1][1]}`, value: 1},
+              {text: `Individuals Predicted to Have Cancer: ${explanations[alg-1][s1-1][1][0]} ${expval[s1-1][0]} vs. ${explanations[alg-1][s1-1][1][1]} ${expval[s1-1][1]}`, value: 2},
+              {text: `Correct Predictions Among Those Who Have Cancer: ${explanations[alg-1][s1-1][2][0]} ${expval[s1-1][0]} vs. ${explanations[alg-1][s1-1][2][1]} ${expval[s1-1][1]}`, value: 3},
+              {text: `Correct Predictions Among Those Predicted To Have Cancer: ${explanations[alg-1][s1-1][3][0]} ${expval[s1-1][0]} vs. ${explanations[alg-1][s1-1][3][1]} ${expval[s1-1][1]}`, value: 4}
+            ];
+          }
+          $("#select_2").replaceOptions(select_2_options);
+          $("#select_2").prop('disabled', false);
+        }        
+      });
+    });
+  </script>
+<body>
+    <div id="page">
+      <div style="margin-left:50px; margin-top:10px" class="scaled">
+        <b>User: </b><span id="userid">{{userid}}</span>
+        <br><br>
+        <div class="page_welcome">
+          <div id="page_welcome_text">
+            Default text! 
+          </div>
+          <div id="page_welcome_append_{{uiversion}}">
+            {{uiversion}} 
+          </div>
+          <br><br>      
+          <div class="widget">
+            <button id="button_proceed">Proceed</button>
+          </div>
+        </div>
+        <div class="page_question">
+          <b>Question # </b><span id="question_number">0</span> out of {{numtests}}.
+          <form class="fairness">
+          <table border="0" style="border-collapse: collapse; width: 100%;">
+            <tbody>
+              <div style="text-align: center; font-size: 24px"><strong>Which of the two algorithms is more discriminatory?</strong></div>
+              <div id="status" style="text-align: center;"></div>
+              <br><br>
+              <tr class="headrow">
+              <td class="firstcol"></td>
+              <td class="headcell"><img id="profile_1" alt="Person1" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_2" alt="Person2" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_3" alt="Person3" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_4" alt="Person4" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_5" alt="Person5" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_6" alt="Person6" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_7" alt="Person7" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_8" alt="Person8" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_9" alt="Person9" width="70" height="80" /></td>
+              <td class="headcell"><img id="profile_10" alt="Person10" width="70" height="80" /></td>
+              <td class="lastcol"></td>
+              </tr>
+              <!--<tr class="featurerow">
+              <td></td>
+              <td class="featurecell">
+              <div id="f_1_1"></div>
+              <div id="f_1_2"></div>
+              <div id="f_1_3"></div>
+              <div id="f_1_4"></div>
+              <div id="f_1_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_2_1"></div>
+              <div id="f_2_2"></div>
+              <div id="f_2_3"></div>
+              <div id="f_2_4"></div>
+              <div id="f_2_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_3_1"></div>
+              <div id="f_3_2"></div>
+              <div id="f_3_3"></div>
+              <div id="f_3_4"></div>
+              <div id="f_3_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_4_1"></div>
+              <div id="f_4_2"></div>
+              <div id="f_4_3"></div>
+              <div id="f_4_4"></div>
+              <div id="f_4_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_5_1"></div>
+              <div id="f_5_2"></div>
+              <div id="f_5_3"></div>
+              <div id="f_5_4"></div>
+              <div id="f_5_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_6_1"></div>
+              <div id="f_6_2"></div>
+              <div id="f_6_3"></div>
+              <div id="f_6_4"></div>
+              <div id="f_6_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_7_1"></div>
+              <div id="f_7_2"></div>
+              <div id="f_7_3"></div>
+              <div id="f_7_4"></div>
+              <div id="f_7_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_8_1"></div>
+              <div id="f_8_2"></div>
+              <div id="f_8_3"></div>
+              <div id="f_8_4"></div>
+              <div id="f_8_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_9_1"></div>
+              <div id="f_9_2"></div>
+              <div id="f_9_3"></div>
+              <div id="f_9_4"></div>
+              <div id="f_9_5"></div>
+              </td>
+              <td class="featurecell">
+              <div id="f_10_1"></div>
+              <div id="f_10_2"></div>
+              <div id="f_10_3"></div>
+              <div id="f_10_4"></div>
+              <div id="f_10_5"></div>
+              </td>
+              </tr> -->
+              <tr class="labelrow">
+              <td id="label_t"><strong>True Outcomes</strong></td>
+              <td id="label_t_1"></td>
+              <td id="label_t_2"></td>
+              <td id="label_t_3"></td>
+              <td id="label_t_4"></td>
+              <td id="label_t_5"></td>
+              <td id="label_t_6"></td>
+              <td id="label_t_7"></td>
+              <td id="label_t_8"></td>
+              <td id="label_t_9"></td>
+              <td id="label_t_10"></td>
+              </tr>
+              <tr>
+              <td><br></td>
+              </tr>
+              <tr">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <!--<td align="center"><span class="legend">Select One</span></td>-->
+              </tr>
+              <tr class="labelrow">
+              <td id="label_1"><strong>Algorithm 1 Predictions</strong></td>
+              <td id="label_1_1"></td>
+              <td id="label_1_2"></td>
+              <td id="label_1_3"></td>
+              <td id="label_1_4"></td>
+              <td id="label_1_5"></td>
+              <td id="label_1_6"></td>
+              <td id="label_1_7"></td>
+              <td id="label_1_8"></td>
+              <td id="label_1_9"></td>
+              <td id="label_1_10"></td>
+              <!--<td align="left">
+                &nbsp;
+                <input type="radio" id="radio_option_1" name="algorithm_selector" value="1"/>&nbsp;&nbsp;<span style="background: white; color:black"><strong>&nbsp;Algorithm 1&nbsp;</strong></span><br>-->
+                <!--
+                <div class="widget">
+                  <button id="button_option_1" class="uibutton"><strong>Algorithm 1</strong></button>
+                </div>
+                -->
+              <!--</td>-->
+              </tr>
+              <tr class="labelrow">
+              <td id="label_2"><strong>Algorithm 2 Predictions</strong></td>
+              <td id="label_2_1"></td>
+              <td id="label_2_2"></td>
+              <td id="label_2_3"></td>
+              <td id="label_2_4"></td>
+              <td id="label_2_5"></td>
+              <td id="label_2_6"></td>
+              <td id="label_2_7"></td>
+              <td id="label_2_8"></td>
+              <td id="label_2_9"></td>
+              <td id="label_2_10"></td>
+              <!-- <td align="left">
+                &nbsp;<input type="radio" id="radio_option_2" name="algorithm_selector" value="2"/>&nbsp;&nbsp;<span style="background: white; color:black"><strong>&nbsp;Algorithm 2&nbsp;</strong></span><br>-->
+                <!-- 
+                <div class="widget">
+                  <button id="button_option_2" class="uibutton"><strong>Algorithm 2</strong></button>
+                </div>
+                -->
+              <!--</td>-->
+              </tr>
+            </tbody>
+            </table>
+            <br>
+            <br>
+            <div style="text-align:center">
+              I believe Algorithm # 
+                <select id="select_algorithm">
+                  <option value="0">[choose one]</option>
+                </select>
+              is <strong>more discriminatory</strong><br>
+            </div>
+            <div id="verification_v1" style="text-align:center" hidden>
+                <!-- <span style="color:gray" id="selected_algorithm_name">[please select above]</span> -->
+                <strong>Explanation:</strong> because across
+                <select id="select_1">
+                  <option value="0">[choose one]</option>
+                </select>
+                groups it results in <br>less equal number of 
+                <select id="select_2" style="width: 400px;">
+                  <option value="0">[choose one]</option>
+                </select>.
+            </div>
+            <div id="verification_v2" style="text-align:center" hidden>
+                <!-- <span style="color:gray" id="selected_algorithm_name">[please select above]</span> -->
+                <strong>Explanation:</strong> because <input id="reason_freeform" type="text" size=144 name="reason_freeform">.
+            </div>
+            <br>
+            <br>
+            <div id="submission" style="text-align:center">
+              <button id="button_nextquestion">Next Question</button>
+            </div>
+            <br>
+            <br>
+            <div id="datainfo">
+              <strong><i>Both Algorithms use the following information (among others) to predict whether an individual has high risk for cancer:</i></strong>
+              <br>
+              - Medical records
+              <br>
+              - Family history of skin cancer
+              <br>
+              - The individual’s genetic profile
+              <br>
+              - The individual’s skin tone 
+              <br>
+              - The individual’s gender
+              <br>
+              - The individual’s age
+              <br><br>
+              <div id="intro_v1" hidden>
+              If you need to access the introductory information anytime during this study, click <a href='/static/information/intro1.html' target="_blank">here</a>. </div>
+              <div id="intro_v2" hidden>
+              If you need to access the introductory information anytime during this study, click <a href='/static/information/intro2.html' target="_blank">here</a>. </div>
+            </div>
+          </form>
+            <br>
+            <div id="debug">
+              <br>
+              <br>
+              <strong><i>Information for debugging use:</i></strong>
+              <br>
+              <b>Items: </b><span class="sample", id="item_features"></span>
+              <br><br>
+              <b>True Outcomes: </b><span class="sample", id="true_labels"></span>
+              <br><br>
+              <b>Case 1 Predicted Labels: </b><span class="sample", id="predicted_labels_1"></span>
+              <br><br>
+              <b>Case 2 Predicted Labels: </b><span class="sample", id="predicted_labels_2"></span>
+            </div>
+            <!--
+            <br><br>
+            Which case is more fair? Press the corresponding button below.
+            <br><br>
+            <div class="widget">
+              <button id="button_option_1">Case 1</button>
+              <button id="button_option_2">Case 2</button>
+            </div>
+            -->
+        </div>
+        <div class="page_thanks">
+          We are done - thank you so much for participating!
+          <br><br>
+          (return code = {{return_code}})
+        </div>
+      </div>
+    </div>  
+
+    <script>
+    $(".page_question").hide()
+    $(".page_thanks").hide()
+    </script>
+</body>
+</html>

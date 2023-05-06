@@ -1,0 +1,232 @@
+timestamp: 2019-02-01-15_39_59.618755
+testmode: True | debug: False | old: False | exhaustive: False | noisy: True | usegini: False | printq: False | checksubmoderr: False | precompute: False | hypothesis: 0 | timesteps: 20 | rgseed: None | rgseed_test: 9 | nprgseed: 4
+Running in non-interactive test mode
+Building Test Queue
+CURRENT COMBINATION: (0, 0, 0, 0, 0, 0, 0, 0, 0, 0) Queue Size: 0
+CURRENT COMBINATION: (0, 0, 0, 0, 0, 0, 0, 0, 0, 1) Queue Size: 0
+CURRENT COMBINATION: (0, 0, 0, 0, 0, 0, 0, 0, 1, 1) Queue Size: 47
+CURRENT COMBINATION: (0, 0, 0, 0, 0, 0, 0, 1, 1, 1) Queue Size: 1325
+CURRENT COMBINATION: (0, 0, 0, 0, 0, 0, 1, 1, 1, 1) Queue Size: 2957
+CURRENT COMBINATION: (0, 0, 0, 0, 0, 1, 1, 1, 1, 1) Queue Size: 8370
+CURRENT COMBINATION: (0, 0, 0, 0, 1, 1, 1, 1, 1, 1) Queue Size: 8940
+CURRENT COMBINATION: (0, 0, 0, 1, 1, 1, 1, 1, 1, 1) Queue Size: 9418
+CURRENT COMBINATION: (0, 0, 1, 1, 1, 1, 1, 1, 1, 1) Queue Size: 9418
+CURRENT COMBINATION: (0, 1, 1, 1, 1, 1, 1, 1, 1, 1) Queue Size: 9418
+CURRENT COMBINATION: (1, 1, 1, 1, 1, 1, 1, 1, 1, 1) Queue Size: 9418
+
+**** t = 0 with queue length=9418 choice = None 
+userid: anonymous29551396 | debug: False | old: False
+ Case 0 Accuracy: 0.42406148615175193, Case 1 Accuracy: 0.575938513848248
+ Case 0 False Discovery: 0.6224593312018546, Case 1 False Discovery: 0.3775406687981454
+ Case 0 False Negative: 0.5156199157230156, Case 1 False Negative: 0.4843800842769843
+ Case 0 Demographic Parity: 0.419085017312099, Case 1 Demographic Parity: 0.580914982687901
+Picked: 1
+Probabilities after t = 0 are:
+ Hypothesis Accuracy : 0.285291192890511
+ Hypothesis False Discovery : 0.18701480310185353
+ Hypothesis False Negative : 0.23993771684488902
+ Hypothesis Demographic Parity : 0.28775628716274637
+ Case 0 Accuracy: 0.45579176268274385, Case 1 Accuracy: 0.5442082373172562
+ Case 0 False Discovery: 0.320821300824607, Case 1 False Discovery: 0.679178699175393
+ Case 0 False Negative: 0.4174297935376853, Case 1 False Negative: 0.5825702064623147
+ Case 0 Demographic Parity: 0.7879311956428947, Case 1 Demographic Parity: 0.21206880435710534
+Picked: 1
+Probabilities after t = 1 are:
+ Hypothesis Accuracy : 0.3213921989067198
+ Hypothesis False Discovery : 0.26293106234284186
+ Hypothesis False Negative : 0.28935343827295085
+ Hypothesis Demographic Parity : 0.12632330047748755
+WARNING: Submodularity Violation: count: 15 id: 1420 old: 0.022581040821937237 new: 0.037721320511777845 max: 0.019334506768994786
+ Case 0 Accuracy: 0.5274030690187756, Case 1 Accuracy: 0.47259693098122446
+ Case 0 False Discovery: 0.7879311956428947, Case 1 False Discovery: 0.21206880435710534
+ Case 0 False Negative: 0.29133917497056444, Case 1 False Negative: 0.7086608250294356
+ Case 0 Demographic Parity: 0.45162288416148594, Case 1 Demographic Parity: 0.548377115838514
+Picked: 1
+Probabilities after t = 2 are:
+ Hypothesis Accuracy : 0.31513888177057864
+ Hypothesis False Discovery : 0.11568963359161871
+ Hypothesis False Negative : 0.4254444223960432
+ Hypothesis Demographic Parity : 0.14372706224175938
+WARNING: Submodularity Violation: count: 0 id: 7071 old: 0.022581040821937237 new: 0.02654655950928697 max: -inf
+ Case 0 Accuracy: 0.5274030690187756, Case 1 Accuracy: 0.47259693098122446
+ Case 0 False Discovery: 0.7879311956428947, Case 1 False Discovery: 0.21206880435710534
+ Case 0 False Negative: 0.29133917497056444, Case 1 False Negative: 0.7086608250294356
+ Case 0 Demographic Parity: 0.45162288416148594, Case 1 Demographic Parity: 0.548377115838514
+Picked: 1
+Probabilities after t = 3 are:
+ Hypothesis Accuracy : 0.2689400104847513
+ Hypothesis False Discovery : 0.044303064119115866
+ Hypothesis False Negative : 0.5444321842373865
+ Hypothesis Demographic Parity : 0.14232474115874635
+WARNING: Submodularity Violation: count: 13 id: 2272 old: 0.019480358967007783 new: 0.021462172971415283 max: 0.007481507244945784
+ Case 0 Accuracy: 0.45579176268274385, Case 1 Accuracy: 0.5442082373172562
+ Case 0 False Discovery: 0.3540895302226503, Case 1 False Discovery: 0.6459104697773498
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.6253272705767867, Case 1 Demographic Parity: 0.3746727294232132
+Picked: 1
+Probabilities after t = 4 are:
+ Hypothesis Accuracy : 0.23368436547680782
+ Hypothesis False Discovery : 0.045689374975043426
+ Hypothesis False Negative : 0.6354846971876362
+ Hypothesis Demographic Parity : 0.08514156236051262
+WARNING: Submodularity Violation: count: 37 id: 253 old: 0.0172706166012232 new: 0.01929885466235759 max: 0.016896434678895178
+ Case 0 Accuracy: 0.48966140025965604, Case 1 Accuracy: 0.5103385997403438
+ Case 0 False Discovery: 0.3775406687981454, Case 1 False Discovery: 0.6224593312018546
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.6082787231308323, Case 1 Demographic Parity: 0.3917212768691676
+Picked: 0
+Probabilities after t = 5 are:
+ Hypothesis Accuracy : 0.3228969622222652
+ Hypothesis False Discovery : 0.048676281024170466
+ Hypothesis False Negative : 0.4822821904350882
+ Hypothesis Demographic Parity : 0.14614456631847617
+WARNING: Submodularity Violation: count: 1 id: 1412 old: 0.017093198006024823 new: 0.023525064132854268 max: 0.007389031558437842
+ Case 0 Accuracy: 0.4912435797991756, Case 1 Accuracy: 0.5087564202008243
+ Case 0 False Discovery: 0.3775406687981454, Case 1 False Discovery: 0.6224593312018546
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.6061389602699256, Case 1 Demographic Parity: 0.39386103973007436
+Picked: 1
+Probabilities after t = 6 are:
+ Hypothesis Accuracy : 0.271659695463183
+ Hypothesis False Discovery : 0.05010484454066992
+ Hypothesis False Negative : 0.5830485906425321
+ Hypothesis Demographic Parity : 0.09518686935361508
+WARNING: Submodularity Violation: count: 0 id: 6533 old: 0.017093198006024823 new: 0.021184518106613204 max: -inf
+ Case 0 Accuracy: 0.4912435797991756, Case 1 Accuracy: 0.5087564202008243
+ Case 0 False Discovery: 0.3775406687981454, Case 1 False Discovery: 0.6224593312018546
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.6061389602699256, Case 1 Demographic Parity: 0.39386103973007436
+Picked: 0
+Probabilities after t = 7 are:
+ Hypothesis Accuracy : 0.363755691502496
+ Hypothesis False Discovery : 0.05156216687063438
+ Hypothesis False Negative : 0.42741538029719556
+ Hypothesis Demographic Parity : 0.157266761329674
+WARNING: Submodularity Violation: count: 0 id: 863 old: 0.016896434678895178 new: 0.02183349352809022 max: -inf
+ Case 0 Accuracy: 0.4666011343687238, Case 1 Accuracy: 0.5333988656312763
+ Case 0 False Discovery: 0.22270013882530887, Case 1 False Discovery: 0.7772998611746912
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.6436200455473391, Case 1 Demographic Parity: 0.35637995445266096
+Picked: 0
+Probabilities after t = 8 are:
+ Hypothesis Accuracy : 0.4271181103718243
+ Hypothesis False Discovery : 0.028896420382784484
+ Hypothesis False Negative : 0.28926789864613695
+ Hypothesis Demographic Parity : 0.2547175705992544
+WARNING: Submodularity Violation: count: 0 id: 3397 old: 0.01689074507368926 new: 0.027014742418407234 max: -inf
+ Case 0 Accuracy: 0.6040148856494989, Case 1 Accuracy: 0.39598511435050116
+ Case 0 False Discovery: 0.5774953651858118, Case 1 False Discovery: 0.42250463481418826
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.45162288416148594, Case 1 Demographic Parity: 0.5483771158385141
+Picked: 0
+Probabilities after t = 9 are:
+ Hypothesis Accuracy : 0.5518343940269919
+ Hypothesis False Discovery : 0.03569486031316457
+ Hypothesis False Negative : 0.16640680163417737
+ Hypothesis Demographic Parity : 0.2460639440256662
+WARNING: Submodularity Violation: count: 0 id: 7048 old: 0.01689074507368926 new: 0.018086356587528607 max: -inf
+ Case 0 Accuracy: 0.6040148856494989, Case 1 Accuracy: 0.39598511435050116
+ Case 0 False Discovery: 0.5774953651858118, Case 1 False Discovery: 0.42250463481418826
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.45162288416148594, Case 1 Demographic Parity: 0.5483771158385141
+Picked: 1
+Probabilities after t = 10 are:
+ Hypothesis Accuracy : 0.44578411735882545
+ Hypothesis False Discovery : 0.03076621918544364
+ Hypothesis False Negative : 0.2481762492701255
+ Hypothesis Demographic Parity : 0.2752734141856053
+WARNING: Submodularity Violation: count: 1 id: 1781 old: 0.016874179705480108 new: 0.023688907900097422 max: 0.006359801093499429
+ Case 0 Accuracy: 0.6006473826607431, Case 1 Accuracy: 0.3993526173392569
+ Case 0 False Discovery: 0.5774953651858118, Case 1 False Discovery: 0.42250463481418826
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.4383817047480559, Case 1 Demographic Parity: 0.5616182952519441
+Picked: 0
+Probabilities after t = 11 are:
+ Hypothesis Accuracy : 0.5661513126548673
+ Hypothesis False Discovery : 0.03756738548744286
+ Hypothesis False Negative : 0.14112574611879208
+ Hypothesis Demographic Parity : 0.2551555557388977
+WARNING: Submodularity Violation: count: 37 id: 5281 old: 0.016335466661381914 new: 0.018590737027671 max: 0.004433865494426592
+ Case 0 Accuracy: 0.44727439748613784, Case 1 Accuracy: 0.5527256025138622
+ Case 0 False Discovery: 0.43782349911420193, Case 1 False Discovery: 0.5621765008857981
+ Case 0 False Negative: 0.5, Case 1 False Negative: 0.5
+ Case 0 Demographic Parity: 0.7270272203206489, Case 1 Demographic Parity: 0.27297277967935096
+Picked: 1
+Probabilities after t = 12 are:
+ Hypothesis Accuracy : 0.6598212780918514
+ Hypothesis False Discovery : 0.044531556545332106
+ Hypothesis False Negative : 0.14878545302378982
+ Hypothesis Demographic Parity : 0.14686171233902662
+ Case 0 Accuracy: 0.44727439748613784, Case 1 Accuracy: 0.5527256025138623
+ Case 0 False Discovery: 0.320821300824607, Case 1 False Discovery: 0.679178699175393
+ Case 0 False Negative: 0.4866698262617676, Case 1 False Negative: 0.5133301737382325
+ Case 0 Demographic Parity: 0.786863577915689, Case 1 Demographic Parity: 0.21313642208431102
+Picked: 1
+Probabilities after t = 13 are:
+ Hypothesis Accuracy : 0.7255942810862848
+ Hypothesis False Discovery : 0.06017413902638031
+ Hypothesis False Negative : 0.1519550778210227
+ Hypothesis Demographic Parity : 0.06227650206631218
+WARNING: Submodularity Violation: count: 162 id: 5966 old: 0.010052581684036388 new: 0.010203666845531645 max: 0.009360066013856416
+ Case 0 Accuracy: 0.5375566791467676, Case 1 Accuracy: 0.4624433208532324
+ Case 0 False Discovery: 0.4378234991142019, Case 1 False Discovery: 0.5621765008857981
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.444671944737631, Case 1 Demographic Parity: 0.555328055262369
+Picked: 0
+Probabilities after t = 14 are:
+ Hypothesis Accuracy : 0.8043001796020518
+ Hypothesis False Discovery : 0.05432615956631004
+ Hypothesis False Negative : 0.0842699944594834
+ Hypothesis Demographic Parity : 0.05710366637215484
+ Case 0 Accuracy: 0.5242044391007592, Case 1 Accuracy: 0.4757955608992407
+ Case 0 False Discovery: 0.3775406687981454, Case 1 False Discovery: 0.6224593312018546
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.4819293616822558, Case 1 Demographic Parity: 0.5180706383177442
+Picked: 1
+Probabilities after t = 15 are:
+ Hypothesis Accuracy : 0.7537743996797556
+ Hypothesis False Discovery : 0.06660745172130227
+ Hypothesis False Negative : 0.12134670134182488
+ Hypothesis Demographic Parity : 0.058271447257117366
+WARNING: Submodularity Violation: count: 23 id: 277 old: 0.004112236655881785 new: 0.006985622250448187 max: 0.0030754463445393787
+ Case 0 Accuracy: 0.5242044391007592, Case 1 Accuracy: 0.4757955608992407
+ Case 0 False Discovery: 0.3775406687981454, Case 1 False Discovery: 0.6224593312018546
+ Case 0 False Negative: 0.26894142136999516, Case 1 False Negative: 0.7310585786300049
+ Case 0 Demographic Parity: 0.4929738353166716, Case 1 Demographic Parity: 0.5070261646833283
+Picked: 0
+Probabilities after t = 16 are:
+ Hypothesis Accuracy : 0.8203878205063088
+ Hypothesis False Discovery : 0.05221120130884638
+ Hypothesis False Negative : 0.06775834616436723
+ Hypothesis Demographic Parity : 0.05964263202047771
+ Case 0 Accuracy: 0.5774953651858118, Case 1 Accuracy: 0.4225046348141882
+ Case 0 False Discovery: 0.26894142136999516, Case 1 False Discovery: 0.7310585786300049
+ Case 0 False Negative: 0.4722507649454869, Case 1 False Negative: 0.5277492350545132
+ Case 0 Demographic Parity: 0.4999999999999999, Case 1 Demographic Parity: 0.5
+Picked: 0
+Probabilities after t = 17 are:
+ Hypothesis Accuracy : 0.8619767796170976
+ Hypothesis False Discovery : 0.02554754902034475
+ Hypothesis False Negative : 0.05821881035305574
+ Hypothesis Demographic Parity : 0.05425686100950184
+ Case 0 Accuracy: 0.44727439748613784, Case 1 Accuracy: 0.5527256025138622
+ Case 0 False Discovery: 0.320821300824607, Case 1 False Discovery: 0.679178699175393
+ Case 0 False Negative: 0.4866698262617676, Case 1 False Negative: 0.5133301737382325
+ Case 0 Demographic Parity: 0.786863577915689, Case 1 Demographic Parity: 0.21313642208431102
+Picked: 0
+Probabilities after t = 18 are:
+ Hypothesis Accuracy : 0.8295424089656731
+ Hypothesis False Discovery : 0.017635242012689636
+ Hypothesis False Negative : 0.06096305674984256
+ Hypothesis Demographic Parity : 0.09185929227179476
+WARNING: Submodularity Violation: count: 22 id: 422 old: 0.0021667763510154203 new: 0.004106567138499551 max: 0.0017449903025491542
+ Case 0 Accuracy: 0.5118033622396376, Case 1 Accuracy: 0.48819663776036243
+ Case 0 False Discovery: 0.45326184801538616, Case 1 False Discovery: 0.546738151984614
+ Case 0 False Negative: 0.555328055262369, Case 1 False Negative: 0.444671944737631
+ Case 0 Demographic Parity: 0.786863577915689, Case 1 Demographic Parity: 0.21313642208431102
+Picked: 1
+Probabilities after t = 19 are:
+ Hypothesis Accuracy : 0.8778931120485823
+ Hypothesis False Discovery : 0.0209010964063123
+ Hypothesis False Negative : 0.058764457149590166
+ Hypothesis Demographic Parity : 0.04244133439551519
